@@ -36,7 +36,11 @@ db.create_all()
 
 @app.route('/', methods=['GET'])
 def index():
-    games = GameTable.query.order_by(desc(GameTable.created)).all()
+    search_name = request.args.get('s', None)
+    if search_name:
+        games = GameTable.query.filter(GameTable.name.like(f'%{search_name}%')).order_by(desc(GameTable.created)).all()
+    else:
+        games = GameTable.query.order_by(desc(GameTable.created)).all()
     games_values = list()
     for game in games:
         games_values.append([
@@ -68,3 +72,9 @@ def add_row():
         return f'\"{name}\" - Already exist'
 
     return redirect(url_for('index'))
+
+
+@app.route('/search_by_name', methods=['POST'])
+def search_by_name():
+    search_name = request.form.get('search_name', '')
+    return redirect(url_for('index')+f'?s={search_name}')
