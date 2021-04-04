@@ -6,10 +6,11 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 
 app = Flask(__name__)
+app.debug = True
 BASE_DIR = os.path.dirname(app.instance_path)
 db_path = os.path.join(os.path.dirname(__file__), 'table.db')
 app.config.update(
-    DEBUG=True,
+    FLASK_DEBUG=1,
     SECRET_KEY='...',
     FLASK_ENV="development",
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
