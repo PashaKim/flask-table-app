@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Sticky Footer Navbar Template for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/sticky-footer-navbar.css"
+          rel="stylesheet">
+    <link href="{{ url_for('static', filename= 'css/style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">Game table</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    </nav>
+</header>
+
+<!-- Begin page content -->
+<main role="main" class="container">
+    <h1 class="mt-5"></h1>
+    <p class="lead"></p>
+</main>
+        <form action="" method="post">
+            <input hidden type="number" name="game_id" value="{{game.id}}">
+            <p>Name:<input type="text" name="name" value="{{game.name}}"></p>
+            <p>Rate:<input type="number" max="12" min="1" name="rate" value="{{game.rate}}"></p>
+            <p>Description:<textarea type="text" name="description" style="width: 640px">{{game.description}}</textarea></p>
+            <p>Image:<input type="text" name="image_link" value="{{game.image_link}}"></p>
+            <p><img src="{{ game.image_link }}" style="width: 350px;"></p>
+            <p><input type="submit" value="EDIT"></p>
+            <p><a style="color: #9C1A1C" href="/delete?id={{game.id}}">Delete</a></p>
+        </form>
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+<script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
