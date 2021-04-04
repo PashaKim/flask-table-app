@@ -71,7 +71,9 @@
     {% for game in games %}
     <tr>
         {% for field in game %}
-            {% if loop.last %}
+            {% if loop.first %}
+                <td>{{ field }} | <a style="color: #5ccd56" href="/edit?id={{ field }}">edit</a>| <a style="color: #9C1A1C" href="/delete?id={{ field }}">del</a></td>
+            {% elif loop.last %}
                 <td><img src="{{ field }}" style="width: 150px;"></td>
             {% else %}
                 <td>{{ field }}</td>
