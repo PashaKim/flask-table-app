@@ -38,27 +38,61 @@ db.create_all()
 def get_game_values(games) -> list:
     games_values = list()
     for game in games:
-        games_values.append([
-            game.id,
-            game.created.strftime("%d/%m/%Y, %H:%M:%S"),
-            game.name,
-            game.rate,
-            game.description,
-            game.image_link
-        ])
+        games_values.append({
+            "id": game.id,
+            "created": game.created.strftime("%d/%m/%Y, %H:%M:%S"),
+            "name": game.name,
+            "rate": game.rate,
+            "description": game.description,
+            "image_link": game.image_link
+        })
     return games_values
+
+
+def get_index_search(search_name):
+    if search_name:
+        return GameTable.query.filter(GameTable.name.like(f'%{search_name}%'))
+    else:
+        return GameTable.query
+
+
+def get_order_by(by_field: str, filtered) -> list:
+    ds = False
+    if by_field[0] == '-':
+        ds = True
+        by_field = by_field.replace('-', '')  # remove '-' in field name
+
+    if by_field == 'id':
+        field = GameTable.id
+    elif by_field == 'name':
+        field = GameTable.name
+    else:
+        field = GameTable.created
+
+    if ds:
+        return filtered.order_by(desc(field)).all()
+    else:
+        return filtered.order_by(field).all()
+
+
+def get_order_links(search_name):
+    fields = ['id', 'name', 'created']
+    if search_name:
+        return {fld: {"e": f'?s={search_name}&o={fld}', "d": f'?s={search_name}&o=-{fld}'} for fld in fields}
+    else:
+        return {fld: {"e": f'?o={fld}', "d": f'?o=-{fld}'} for fld in fields}
 
 
 @app.route('/', methods=['GET'])
 def index():
     search_name = request.args.get('s', None)
-    if search_name:
-        games = GameTable.query.filter(GameTable.name.like(f'%{search_name}%')).order_by(desc(GameTable.created)).all()
-    else:
-        games = GameTable.query.order_by(desc(GameTable.created)).all()
+    order_by_field = request.args.get('o', '-created')
+    filtered_q = get_index_search(search_name)
+    # list of games
+    games = get_order_by(order_by_field, filtered_q)
     games_values = get_game_values(games)
 
-    return render_template('index.html', games=games_values)
+    return render_template('index.html', games=games_values, order_links=get_order_links(search_name))
 
 
 @app.route('/add_row', methods=['POST'])

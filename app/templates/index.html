@@ -49,36 +49,36 @@
 <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th class="th-sm">ID</th>
-        <th class="th-sm">Created</th>
-        <th class="th-sm">Name</th>
+        <th class="th-sm" style="width:70px">ID <a href="{{order_links.id.e}}">&#9650;</a> <a href="{{order_links.id.d}}">&#9660;</a></th>
+        <th class="th-sm" style="width:120px">Created <a href="{{order_links.created.e}}">&#9650;</a> <a href="{{order_links.created.d}}">&#9660;</a></th>
+        <th class="th-sm">Name <a href="{{order_links.name.e}}">&#9650;</a> <a href="{{order_links.name.d}}">&#9660;</a></th>
         <th class="th-sm">Rate</th>
         <th class="th-sm">Description</th>
         <th class="th-sm">Image</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <form action="/add_row" method="post">
-            <td><input type="submit"></td>
+            <td></td>
             <td></td>
             <td><input type="text" name="name"></td>
             <td><input type="number" max="12" min="1" name="rate"></td>
             <td><textarea style="width: 100%; height: 100%;" rows="2" type="text" name="description"></textarea></td>
             <td><input type="text" name="image_link"></td>
+            <td><input type="submit"></td>
         </form>
     </tr>
     {% for game in games %}
     <tr>
-        {% for field in game %}
-            {% if loop.first %}
-                <td>{{ field }} | <a style="color: #5ccd56" href="/edit?id={{ field }}">edit</a>| <a style="color: #9C1A1C" href="/delete?id={{ field }}">del</a></td>
-            {% elif loop.last %}
-                <td><img src="{{ field }}" style="width: 150px;"></td>
-            {% else %}
-                <td>{{ field }}</td>
-            {% endif %}
-        {% endfor %}
+                <td><a style="color: #5ccd56" href="/edit?id={{ game.id }}"><b><u>{{ game.id }}</u></b></a></td>
+                <td>{{ game.created }}</td>
+                <td>{{ game.name }}</td>
+                <td>{{ game.rate }}</td>
+                <td>{{ game.description }}</td>
+                <td><img src="{{ game.image_link }}" style="width: 150px;"></td>
+                <td><a style="color: #9C1A1C" href="/delete?id={{ game.id }}"><b>⌫Del</b></a></td>
     </tr>
     {% endfor %}
     </tbody>
@@ -90,6 +90,7 @@
         <th class="th-sm">Rate</th>
         <th class="th-sm">Description</th>
         <th class="th-sm">Image</th>
+        <th></th>
     </tr>
     </tfoot>
 </table>
